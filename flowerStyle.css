@@ -1,0 +1,363 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    overflow: hidden; /* Animasyon sırasında taşmaları engeller */
+    margin: 0px;
+    padding: 0px;
+}
+
+#background-video {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  width: 100vw; /* Ekranın tam genişliğini kullanır */
+  height: 100vh; /* Ekranın tam yüksekliğini kullanır */
+  z-index: -100;
+  object-fit: cover; /* Bu satır videonun en boy oranını koruyarak ekranı tamamen doldurmasını sağlar */
+}
+
+img {
+    width: 100%;
+    position: relative;
+    top: 1rem;
+    border-top-left-radius: 100%;
+    border-top-right-radius: 100%;
+    z-index: -10;
+    opacity: 0.8;
+}
+
+
+/*----------------------------------- Animasyon Anahtar Kareleri -----------------------------------*/
+
+/* Gövdenin aşağıdan yukarıya doğru büyümesi */
+@keyframes growStem {
+    0% { transform: scaleY(0); opacity: 0.7;}
+    100% { transform: scaleY(1); opacity: 1;}
+}
+
+/* Taç yaprakların boyutlanarak ortaya çıkması */
+@keyframes growPetal {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Dikenlerin ve yaprakların yana doğru fırlaması */
+@keyframes growThornLeft {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1) rotate(-30deg); opacity: 1; }
+}
+
+@keyframes growThornRight {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1) rotate(30deg); opacity: 1; }
+}
+
+/* Dip yapraklarının görünmesi */
+@keyframes growBaseLeaf {
+    0% { transform: scale(0) rotate(0deg); opacity: 0; }
+    100% { transform: scale(1) rotate(30deg); opacity: 1; }
+}
+
+@keyframes growFlowers {
+    0% { transform: scale(0); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+#flower {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    align-items: center;
+    position: relative;
+    top: 13rem;
+}
+
+#petal {
+    display: flex;
+    justify-content: center;
+}
+
+#leftPetal, #rightPetal {
+    display: flex;
+    flex-direction: column;
+    align-items: end;
+    
+}
+
+#rightPetal {
+    align-items: start;
+}
+
+.leftPetalInner, .rightPetalInner {
+    width: 12px;
+    height: 4px;
+    background-color: rgb(5, 182, 5);
+    border-bottom-left-radius: 100%;
+    box-shadow: 0px 20px 100px 20px rgba(253, 130, 228, 0.2); 
+    animation: growPetal 1s ease-out forwards;
+    opacity: 0;
+}
+
+.rightPetalInner {
+    border-bottom-left-radius: 0%;
+    border-bottom-right-radius: 100%;
+}
+
+#leftPetalTop, #rightPetalTop {
+    width: 50px;
+    height: 15px;
+    position: relative;
+    top: 1.2rem;
+    right: 0.1rem;
+    border-bottom: 1.5px solid black;
+    border-top-right-radius: 60%;
+    z-index: 2;
+    border-top: 1px solid black;
+    animation-delay: 2.2s;
+}
+
+#rightPetalTop {
+    border-top-right-radius: 0%;
+    border-top-left-radius: 60%;
+}
+
+#leftPetalMiddleTop, #rightPetalMiddleTop {
+    width: 37.5px;
+    height: 12.5px;
+    position: relative;
+    top: 0.7rem;
+    right: 0.1rem;
+    border-bottom: 1.5px solid black;
+    z-index: 3;
+    animation-delay: 2.3s;
+}
+
+#rightPetalMiddleBottom, #leftPetalMiddleBottom {
+    width: 25.5px;
+    height: 8.5px;
+    position: relative;
+    border-bottom: 1.5px solid black;
+    top: 0.3rem;
+    right: 0.1rem;
+    z-index: 5;
+    animation-delay: 2.4s;
+}   
+
+#leftPetalBottom, #rightPetalBottom {
+    border-bottom: 1.5px solid black;
+    z-index: 10;
+    position: relative;
+    top: 0.1rem;
+    right: 0.1rem;
+    animation-delay: 2.5s;
+}
+
+/*------------------------------------------------*/
+
+#flowerMiddle {
+    display: flex;
+    align-items: center;
+}
+
+#flowerMiddleLeft, #flowerMiddleRight{
+    display: flex;
+    flex-direction: column;
+    gap: 6rem;
+    position: relative;
+    animation: growThorn;
+}
+#flowerMiddleLeft{top: 0.8rem;}
+
+
+#flowerBody {
+    background-color: rgb(5, 182, 5);
+    width: 10px;
+    height: 300px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border: 1.5px solid black;
+    border-top: 0px;
+    z-index: 100;
+    box-shadow: 0px 2px 60px 25px rgb(80, 170, 84, 0.6);
+        /* Transformasyonun başlangıç noktası: bottom */
+    transform-origin: bottom;
+    /* Animasyon */
+    animation: growStem 3s ease-out forwards;
+    
+    /* Animasyon başlamadan önce görünmez olsun */
+    transform: scaleY(0);
+}
+
+
+.leftLeaf, .rightLeaf {
+    position: relative; /* Pseudo-element'i konumlandırmak için */
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 1.8px solid transparent;
+    border-bottom: 15px solid rgb(5, 182, 5);
+    right: -0.03rem;
+    opacity: 0;
+}
+
+.leftLeaf {
+    animation: growThornLeft 2s ease-out forwards;
+    animation-delay: 2s;
+}
+
+.rightLeaf {
+    border-bottom: 25px solid rgb(4, 136, 4);
+    border-left: 2.7px solid transparent;
+    border-right: 4.5px solid transparent;
+    right: 0.1rem;
+    animation: growThornRight 2s ease-out forwards;
+    animation-delay: 2s;
+}
+
+.leftLeaf::after, .rightLeaf::after{
+    content: '';
+    width: 10px; 
+    height: 1.9px;
+    background-color: rgb(5, 182, 5);
+    position: absolute;
+    border-bottom-left-radius: 100%;
+    top: 0rem;
+    right: -0.349rem;
+    transform: rotate(100deg);   
+}
+
+.rightLeaf::after{
+    top: 0rem;
+    border-bottom-left-radius: 0%;
+    border-top-left-radius: 100%;
+    border-top-right-radius: 20%;
+    bottom: -0.3rem;
+    left: -0.35rem;
+    transform: rotate(80deg);
+    background-color: rgb(4, 136, 4);
+}
+
+#flowerBottom {
+    display: flex;
+    gap: 4rem;
+}
+
+#container {
+    width: 15px;
+    height: 15px;
+    background-color: rgb(5, 182, 5);
+    border: 1.5px solid black;
+    border-radius: 50%;
+    position: relative;
+    bottom: 0.7rem;
+    right: 0.07rem;
+    animation: growBaseLeaf 0.8s ease-out forwards;
+    transform: scale(0);
+    opacity: 0;
+    animation-delay: 2.7s;
+}
+
+#bottomLeftLeaf, #bottomRightLeaf{
+    animation: growBaseLeaf 0.8s ease-out forwards;
+    transform: scale(0);
+    opacity: 0;
+    animation-delay: 2.7s;
+    background-color: rgb(5, 182, 5);
+    width: 25px;
+    height: 25px;
+    box-shadow: 0px 2px 50px 10px rgb(0,0,0,0.4);
+    border-radius: 50%  0% 50% 0 / 50% 50% 50% 0; 
+}
+
+#bottomLeftLeaf {
+    transform: rotate(30deg);
+    /*border-left: 8px solid #559f51;*/
+    border: 1px solid black;
+    position: relative;
+    left: 3.8rem;
+    bottom: 1.5rem;
+}
+
+#bottomRightLeaf {
+    transform: rotate(230deg);
+    border-right: 8px solid #559f51;
+    border: 1px solid black;
+    position: relative;
+    right: 4rem;
+    bottom: 1.9rem;
+}
+
+#flowerLeaf .bottomLeftLeaf, #flowerLeaf .bottomRightLeaf {
+    border-radius: 50%  50% 50% 0% / 50% 50% 50% 0%; 
+    padding: 0px;
+    margin: 0px;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom: 0px;
+    width: 20px;
+    height: 20px;
+    border: 0.5px solid black;
+    border-left: 8px solid #c72c5b;
+    transform: rotate(30deg);
+    background-color: #e07590;
+    box-shadow: 0px 2px 50px 10px rgba(255, 131, 218, 0.4);
+    position: relative;
+}
+
+#flowerLeaf .bottomRightLeaf {
+    border-radius: 0%  50% 50% 50% / 0% 50% 50% 50%; 
+    border-left: 0px;
+    transform: rotate(30deg);
+    border-right: 8px solid #c72c5b;
+    box-shadow: 0px 2px 50px 10px rgba(255, 131, 218, 0.4);
+
+}
+
+#flowerLeaf {
+    display: flex;
+    flex-direction: column;
+}
+
+.stack {
+    display: flex;
+    justify-content: center;
+    position: relative;
+    top: 1.4rem;
+    opacity: 0;
+}
+
+
+#leafStack3, #leafStack5, #leafStack6, #leafStack5-1, #leafStack4{
+    animation: growFlowers 4s ease-in-out forwards;
+    opacity: 0; /* Başlangıçta gizli tutar */
+}
+
+#leafStack5 {
+    animation-delay: 2s;
+}
+#leafStack6{
+    animation-delay: 2.5s;
+}
+#leafStack5-1{
+    animation-delay: 3s;
+}
+#leafStack4{
+    animation-delay: 3.5s;
+}
+
+#leafStack3 {
+    animation-delay: 4s;
+}
+
+.zIndex {
+    z-index: 5;
+}
+
+.flowerLeaf>div>div {
+    position: relative;
+}
